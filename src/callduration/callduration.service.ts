@@ -33,9 +33,13 @@ export class CalldurationService {
 
   async getClientCallDurationgw1(data) {
     const entityManager = getManager();
+    // const result = await entityManager.query(
+    //   `SELECT caller_domain FROM cdr WHERE caller_domain like '172.14.0%' and calldate between '${data.start_date}' and '${data.end_date}'`,
+    // );
     const result = await entityManager.query(
-      `SELECT date(calldate) as date,sum(duration) as duration FROM cdr WHERE calldate between '${data.start_date}' and '${data.end_date}' group by date(calldate)`,
+      `SELECT date(calldate) as date,sum(duration) as duration FROM cdr WHERE caller_domain like '172.14.0%' and calldate between '${data.start_date}' and '${data.end_date}' group by date(calldate)`,
     );
+
     return result;
   }
 
